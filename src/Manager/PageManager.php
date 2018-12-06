@@ -33,23 +33,18 @@ class PageManager extends AbstractDatabase
     protected $pageUrlManager;
 
 
-    /**
-     * @var Translate
-     */
-    protected $translate;
-
 
     /**
      * PageManager constructor.
      * @param PageRepository $pageRepository
      * @param PageUrlManager $pageUrlManager
-     * @param Translate $translate
      */
-    public function __construct(PageRepository $pageRepository, PageUrlManager $pageUrlManager, Translate $translate)
-    {
+    public function __construct(
+        PageRepository $pageRepository,
+        PageUrlManager $pageUrlManager
+    ) {
         $this->pageRepository = $pageRepository;
         $this->pageUrlManager = $pageUrlManager;
-        $this->translate = $translate;
     }
 
 
@@ -79,8 +74,7 @@ class PageManager extends AbstractDatabase
 
         if ($pageByName)
         {
-            $message = $this->translate->translate("Page with name '%name%' already exists.", ['name' => $name]);
-            throw new DatabaseException($message);
+            throw new DatabaseException("Stránka s názvem '{$name}' již existuje");
         }
 
         $page = new Page;
@@ -108,8 +102,7 @@ class PageManager extends AbstractDatabase
 
         if ($pageByName && $name === $pageByName->getName() && $pageByName !== $page)
         {
-            $message = $this->translate->translate("Page with name '%name%' already exists.", ['name' => $name]);
-            throw new DatabaseException($message);
+            throw new DatabaseException("Stránka s názvem '{$name}' již existuje");
         }
 
         $page->setName($name);
@@ -138,8 +131,7 @@ class PageManager extends AbstractDatabase
 
         if (!$parentPage)
         {
-            $message = $this->translate->translate("Parent page with id: '%parent-page-id%' does not found.", ['parent-page-id' => $parentPageId]);
-            throw new \Exception($message);
+            throw new \Exception("Nadřazená stránka s id: '{$parentPageId}' nebyla nalezena.");
         }
 
         $page->setParent($parentPage);

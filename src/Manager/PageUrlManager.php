@@ -34,22 +34,17 @@ class PageUrlManager
 
 
     /**
-     * @var Translate
-     */
-    protected $translate;
-
-
-    /**
      * PageUrlManager constructor.
      * @param LangRepository $langRepository
      * @param PageUrlRepository $pageUrlRepository
      * @param Translate $translate
      */
-    public function __construct(LangRepository $langRepository, PageUrlRepository $pageUrlRepository, Translate $translate)
-    {
+    public function __construct(
+        LangRepository $langRepository,
+        PageUrlRepository $pageUrlRepository
+    ) {
         $this->langRepository = $langRepository;
         $this->pageUrlRepository = $pageUrlRepository;
-        $this->translate = $translate;
     }
 
 
@@ -76,8 +71,7 @@ class PageUrlManager
 
         if ($pageUrlByUrl && $pageUrl !== $pageUrlByUrl)
         {
-            $message = $this->translate->translate("Url '%url%' is already exists.", ['url' => $url]);
-            throw new DatabaseException($message);
+            throw new DatabaseException("Url '{$url}' již existuje.");
         }
 
         $pageUrl->setLang($lang);
