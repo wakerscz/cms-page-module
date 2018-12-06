@@ -1,0 +1,43 @@
+{**
+ * Copyright (c) 2018 Wakers.cz
+ *
+ * @author Jiří Zapletal (http://www.wakers.cz, zapletal@wakers.cz)
+ *
+ *}
+
+<div class="wakers_modal" id="wakers_page_summary_modal">
+
+    <div class="modal_title">
+        <a href="#" class="close" data-wakers-modal-close>&#x2715</a>
+        Přehled stránek webu ({$presenter->template->langEntity->getName()})
+    </div>
+
+    <div class="wakers_tree_list">
+
+        {snippet pageSummary}
+            {var $pages = $pages['descendants']}
+
+            {block pages}
+                <ul>
+                    {foreach $pages as $descendant}
+                        <li>
+                            <div class="inner_container">
+                                <a href="{plink :App:Run:setUrl 'url' => $descendant['item']->getPageUrl()->getUrl()}" target="_blank" class="inner_box">{$descendant['item']->getName()}</a>
+                                {if $descendant['item']->getPublished() === FALSE}
+                                    <div class="inner_action">
+                                        <span data-wakers-tooltip="Stránka není publikována">&#x2573;</span>
+                                    </div>
+                                {/if}
+                            </div>
+
+                            {if count($descendant['descendants']) > 0}
+                                {include pages, pages => $descendant['descendants']}
+                            {/if}
+                        </li>
+                    {/foreach}
+                </ul>
+            {/block}
+        {/snippet}
+
+    </div>
+</div>

@@ -1,0 +1,24 @@
+parameters:
+    acl:
+        - Wakers\PageModule\Security\PageAuthorizator
+
+services:
+
+    # Managers
+        - Wakers\PageModule\Manager\PageManager
+        - Wakers\PageModule\Manager\PageUrlManager
+
+    # Repositories
+        - Wakers\PageModule\Repository\PageRepository
+        - Wakers\PageModule\Repository\PageUrlRepository
+
+    # Components
+        - Wakers\PageModule\Component\Frontend\PrimaryModal\IPrimaryModal
+        - Wakers\PageModule\Component\Frontend\UrlModal\IUrlModal
+        - Wakers\PageModule\Component\Frontend\AddModal\IAddModal
+        - Wakers\PageModule\Component\Frontend\SummaryModal\ISummaryModal
+        - Wakers\PageModule\Component\Frontend\Publish\IPublish
+
+console:
+    commands:
+        - Wakers\PageModule\Console\HomepageCreateCommand

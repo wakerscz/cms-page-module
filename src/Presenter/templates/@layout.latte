@@ -1,0 +1,85 @@
+{**
+ * Copyright (c) 2018 Wakers.cz
+ *
+ * @author Jiří Zapletal (http://www.wakers.cz, zapletal@wakers.cz)
+ *
+ *}
+<!DOCTYPE html>
+<html lang="{$langEntity->getName()}" class="h-100">
+<head>
+    {block meta}
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {/block}
+
+    {control onPageHead}
+
+    {block styles}
+        {control baseAssetLoader 'styles.latte', 'frontend'}
+    {/block}
+</head>
+<body {block bodyClass}class="h-100"{/block}>
+
+{block beforeContent}{/block}
+
+{block onContent}
+    {include content}
+{/block}
+
+{block afterContent}{/block}
+
+{block scripts}
+    {control baseAssetLoader 'scripts.latte', 'frontend'}
+    {control baseNotification}
+    <script n:syntax="off">$(function(){$.run()})</script>
+{/block}
+
+{* Modals *}
+{block modals}
+    {if $user->isLoggedIn()}
+
+        {control baseDashboardModal}
+        {control userEditModal}
+
+        {if $user->isAllowed(Wakers\BaseModule\Security\BaseAuthorizator::RES_IN_PAGE_MANAGER)}
+            {control onPageSocialModal}
+            {control onPagePrimaryModal}
+            {control onPageRedirectModal}
+            {control onPageRemoveRedirectModal}
+
+            {control pagePrimaryModal}
+            {control pageUrlModal}
+            {control pageAddModal}
+            {control pageSummaryModal}
+
+            {control userSummaryModal}
+            {control userAddModal}
+            {control userRemoveModal}
+
+            {control langSystemModal}
+
+            {control categoryModal}
+            {control categoryRemoveModal}
+
+            {control structureRecipeModal}
+            {control structureRecipeSummaryModal}
+            {control structureRecipeRemoveModal}
+
+            {control structureRecipeSlugModal}
+            {control structureRecipeSlugRemoveModal}
+
+            {control structureVariableSummaryModal}
+            {control structureVariableModal}
+            {control structureVariableRemoveModal}
+
+            {control structureStructureModal}
+            {control structureStructureRemoveModal}
+        {/if}
+
+    {else}
+        {control userLoginModal}
+    {/if}
+{/block}
+
+</body>
+</html>

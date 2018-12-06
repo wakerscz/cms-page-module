@@ -1,0 +1,62 @@
+{**
+ * Copyright (c) 2018 Wakers.cz
+ *
+ * @author Jiří Zapletal (http://www.wakers.cz, zapletal@wakers.cz)
+ *
+ *}
+
+<div class="wakers_modal" id="wakers_page_url_modal">
+
+    <div class="modal_title">
+        <a href="#" class="close" data-wakers-modal-close>&#x2715</a>
+        URL Adresa stránky (odkaz)
+    </div>
+
+    {snippet urlForm}
+        <form n:name="urlForm" class="wakers_form">
+            <div class="form_group">
+                <div class="group_label">
+                    <label n:name="url">Aktuální URL:</label>
+                </div>
+
+                <div class="group_control">
+                    <input n:name="url" placeholder="př: reference/rekonstrukce/byt-v-ceskych-budejovicich">
+                </div>
+            </div>
+
+            <div class="form_group">
+                <div class="group_label"></div>
+                <div class="group_control">
+                    <button n:name="save" type="submit" class="wakers_btn" data-ajax>Uložit nastavení</button>
+                </div>
+            </div>
+        </form>
+    {/snippet}
+
+    <div class="modal_subtitle">
+        Přehled všech URL
+    </div>
+
+    <div class="wakers_table">
+        <table>
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>URL Adresa</th>
+                <th>Název stránky</th>
+            </tr>
+            </thead>
+            <tbody n:snippet="urlSummary">
+            <tr n:foreach="$urls as $url">
+                <td>{$url->getPage()->getId()}</td>
+                <td>
+                    <a href="{plink :App:Run:setUrl 'url' => $url->getUrl()}" target="_blank">{$baseUrl}/<strong>{$url->getUrl()}</strong></a>
+                </td>
+                <td>
+                    {$url->getPage()->getName()}
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

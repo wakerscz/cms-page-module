@@ -1,0 +1,17 @@
+<table name="page_url" phpName="PageUrl" namespace="PageModule\Database" package="./page-module/">
+    <column name="page_id" type="INTEGER" required="TRUE" primaryKey="TRUE"/>
+    <column name="lang_id" type="INTEGER" required="TRUE"/>
+    <column name="url" type="VARCHAR" size="255" required="TRUE"/>
+
+    <foreign-key foreignTable="page" onDelete="CASCADE">
+        <reference local="page_id" foreign="id"/>
+    </foreign-key>
+
+    <foreign-key foreignTable="lang" onDelete="CASCADE">
+        <reference local="lang_id" foreign="id"/>
+    </foreign-key>
+
+    <unique>
+        <unique-column name="url"/>
+    </unique>
+</table>

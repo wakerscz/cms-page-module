@@ -1,0 +1,46 @@
+{**
+ * Copyright (c) 2018 Wakers.cz
+ *
+ * @author Jiří Zapletal (http://www.wakers.cz, zapletal@wakers.cz)
+ *
+ *}
+
+<div class="wakers_modal" id="wakers_page_primary_modal">
+
+    <div class="modal_title">
+        <a href="#" class="close" data-wakers-modal-close>&#x2715</a>
+        Název a zařazení stránky
+    </div>
+
+    {snippet primaryForm}
+        <form n:name="primaryForm" class="wakers_form">
+            <div class="form_group">
+                <div class="group_label">
+                    <label n:name="name">Název stránky:</label>
+                </div>
+
+                <div class="group_control">
+                    <input n:name="name" placeholder="Relevantní název k obsahu celé stránky">
+                </div>
+            </div>
+
+            <div class="form_group">
+                <div class="group_label">
+                    <label n:name="parentPageId">Nadřazená stránka:</label>
+                </div>
+
+                <div class="group_control">
+                    <select n:name="parentPageId"></select>
+                </div>
+            </div>
+
+
+            <div class="form_group">
+                <div class="group_label"></div>
+                <div class="group_control">
+                    <button n:name="save" type="submit" class="wakers_btn" data-wakers-progress-button>Uložit nastavení</button>
+                </div>
+            </div>
+        </form>
+    {/snippet}
+</div>

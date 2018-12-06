@@ -1,0 +1,14 @@
+{**
+ * Copyright (c) 2018 Wakers.cz
+ *
+ * @author Jiří Zapletal (http://www.wakers.cz, zapletal@wakers.cz)
+ *
+ *}
+
+<a href="{link Publish!}" class="current_settings" data-wakers-progress-button>
+    <span n:snippet="publish">
+        {var $published = $presenter->template->pageEntity->getPublished()}
+        {$published ? 'Vypnout' : 'Publikovat'}<br>
+        <small>(aktuálně: <strong>{$published ? 'publikováno' : 'vypnuto'}</strong>)</small>
+    </span>
+</a>

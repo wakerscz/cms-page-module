@@ -1,0 +1,13 @@
+<table name="page" phpName="Page" namespace="PageModule\Database" package="./page-module/">
+    <column name="id" type="INTEGER" required="TRUE" primaryKey="TRUE" autoIncrement="TRUE"/>
+    <column name="view" type="VARCHAR" size="32" required="TRUE"/>
+    <column name="name" type="VARCHAR" size="64" required="TRUE"/>
+    <column name="is_published" type="BOOLEAN" defaultValue="FALSE" required="TRUE" phpName="Published"/>
+
+    <behavior name="nested_set" />
+
+    <unique>
+        <unique-column name="name"/>
+    </unique>
+
+</table>
