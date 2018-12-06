@@ -51,8 +51,8 @@ abstract class FrontendPresenter extends Presenter
 
     use \Wakers\LangModule\Component\Frontend\SystemModal\Create;
 
-    use \Wakers\CategoryModule\Components\Frontend\Modal\Create;
-    use \Wakers\CategoryModule\Components\Frontend\RemoveModal\Create;
+    use \Wakers\CategoryModule\Component\Frontend\Modal\Create;
+    use \Wakers\CategoryModule\Component\Frontend\RemoveModal\Create;
 
     use \Wakers\StructureModule\Component\Frontend\RecipeModal\Create;
     use \Wakers\StructureModule\Component\Frontend\RecipeSummaryModal\Create;
