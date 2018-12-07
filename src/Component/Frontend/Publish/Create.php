@@ -30,7 +30,10 @@ trait Create
         $control->onSave[] = function () use ($control)
         {
             $this->getComponent('pageSummaryModal')->redrawControl('pageSummary');
+
             $control->redrawControl('publish');
+
+            $this->redrawPrinters(); // TODO: Remove dependency on Structure Module
         };
 
         return $control;
