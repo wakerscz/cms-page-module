@@ -13,7 +13,6 @@ namespace Wakers\PageModule\Presenter;
 use Nette\Application\BadRequestException;
 use Nette\Application\UI\Presenter;
 use Wakers\LangModule\Repository\LangRepository;
-use Wakers\LangModule\Translator\Translate;
 use Wakers\OnPageModule\Repository\OnPageRepository;
 use Wakers\PageModule\Repository\PageRepository;
 use Wakers\PageModule\Security\PageAuthorizator;
@@ -97,13 +96,6 @@ abstract class FrontendPresenter extends Presenter
      * @inject
      */
     public $langRepository;
-
-
-    /**
-     * @var Translate
-     * @inject
-     */
-    public $translate;
 
 
     /**
