@@ -16,7 +16,6 @@ use Wakers\BaseModule\Util\AjaxValidate;
 use Wakers\BaseModule\Database\DatabaseException;
 use Wakers\LangModule\Database\Lang;
 use Wakers\LangModule\Repository\LangRepository;
-use Wakers\LangModule\Translator\Translate;
 use Wakers\PageModule\Manager\PageManager;
 use Wakers\PageModule\Manager\PageUrlManager;
 use Wakers\PageModule\Repository\PageRepository;
@@ -58,12 +57,6 @@ class AddModal extends BaseControl
 
 
     /**
-     * @var Translate
-     */
-    protected $translate;
-
-
-    /**
      * @var array
      */
     protected $defaults = [];
@@ -81,20 +74,17 @@ class AddModal extends BaseControl
      * @param PageRepository $pageRepository
      * @param PageManager $pageManager
      * @param PageUrlManager $pageUrlManager
-     * @param Translate $translate
      */
     public function __construct(
         LangRepository $langRepository,
         PageRepository $pageRepository,
         PageManager $pageManager,
-        PageUrlManager $pageUrlManager,
-        Translate $translate
+        PageUrlManager $pageUrlManager
     ) {
         $this->langRepository = $langRepository;
         $this->pageRepository = $pageRepository;
         $this->pageManager = $pageManager;
         $this->pageUrlManager = $pageUrlManager;
-        $this->translate = $translate;
 
         $this->activeLang = $langRepository->getActiveLang();
     }
@@ -158,9 +148,9 @@ class AddModal extends BaseControl
         ]);
 
         $form->addText('name')
-            ->addRule(Form::MAX_LENGTH, 'Maximal length of page name is %d chars.', 64)
-            ->addRule(Form::MIN_LENGTH, 'Minimal length of page name is %d chars.', 3)
-            ->setRequired('Page name is required.');
+            ->setRequired('Název stránky je povinný.')
+            ->addRule(Form::MIN_LENGTH, 'Minimální délka názvu stránky jsou %d znaky.', 3)
+            ->addRule(Form::MAX_LENGTH, 'Maximální délka názvu stránky je %d znaků.', 64);
 
         $form->addSelect('parentPageId', NULL, $pageNames)
             ->setRequired(FALSE);
@@ -169,10 +159,10 @@ class AddModal extends BaseControl
             ->setRequired('Page view is required.');
 
         $form->addText('url')
-            ->addRule(Form::PATTERN, 'Allowed chars for url are: a-z, 0-9, slash, dash', PageRepository::URL_REGEX)
-            ->addRule(Form::MAX_LENGTH, 'Maximal length of url is %d', 255)
-            ->addRule(Form::MIN_LENGTH, 'Minimal length of url is %d', 2)
-            ->setRequired('Page URL is required.')
+            ->setRequired('URL stránky je povinná.')
+            ->addRule(Form::PATTERN, 'Povolené znaky pro URL: a-z, 0-9, lomítko, pomlčka.', PageRepository::URL_REGEX)
+            ->addRule(Form::MIN_LENGTH, 'Minimální délka URL je %d znaky.', 2)
+            ->addRule(Form::MAX_LENGTH, 'Maximální délka URL je %d znaků.', 255)
             ->addFilter(function ($value) {
                 return $this->pageManager->webalizeUrl($value);
             });
@@ -213,8 +203,8 @@ class AddModal extends BaseControl
                 $this->pageManager->getConnection()->commit();
 
                 $this->presenter->notification(
-                    $this->translate->translate('Page created'),
-                    $this->translate->translate('Page has been created. Do not forget to publish it.'),
+                    'Stránka vytvořena',
+                    'Stránka byla vytvořena, nezapomeňte ji publikovat.',
                     'success'
                 );
 
@@ -225,7 +215,7 @@ class AddModal extends BaseControl
                 $this->pageManager->getConnection()->rollBack();
 
                 $this->presenter->notificationAjax(
-                    $this->translate->translate('Error'),
+                    "Chyba",
                     $exception->getMessage(),
                     'error'
                 );

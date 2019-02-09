@@ -13,7 +13,6 @@ namespace Wakers\PageModule\Manager;
 use Wakers\BaseModule\Database\DatabaseException;
 use Wakers\LangModule\Database\Lang;
 use Wakers\LangModule\Repository\LangRepository;
-use Wakers\LangModule\Translator\Translate;
 use Wakers\PageModule\Database\Page;
 use Wakers\PageModule\Database\PageUrl;
 use Wakers\PageModule\Repository\PageUrlRepository;
@@ -37,7 +36,6 @@ class PageUrlManager
      * PageUrlManager constructor.
      * @param LangRepository $langRepository
      * @param PageUrlRepository $pageUrlRepository
-     * @param Translate $translate
      */
     public function __construct(
         LangRepository $langRepository,

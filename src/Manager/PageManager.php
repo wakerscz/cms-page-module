@@ -14,7 +14,6 @@ use Nette\InvalidArgumentException;
 use Wakers\BaseModule\Database\AbstractDatabase;
 use Wakers\BaseModule\Database\DatabaseException;
 use Wakers\LangModule\Database\Lang;
-use Wakers\LangModule\Translator\Translate;
 use Wakers\PageModule\Database\Page;
 use Wakers\PageModule\Repository\PageRepository;
 

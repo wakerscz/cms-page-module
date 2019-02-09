@@ -11,7 +11,6 @@ namespace Wakers\PageModule\Component\Frontend\Publish;
 
 
 use Wakers\BaseModule\Component\Frontend\BaseControl;
-use Wakers\LangModule\Translator\Translate;
 use Wakers\PageModule\Database\Page;
 use Wakers\PageModule\Manager\PageManager;
 use Wakers\PageModule\Repository\PageRepository;
@@ -38,12 +37,6 @@ class Publish extends BaseControl
 
 
     /**
-     * @var Translate
-     */
-    protected $translate;
-
-
-    /**
      * @var callable
      */
     public $onSave = [];
@@ -53,16 +46,13 @@ class Publish extends BaseControl
      * Publish constructor.
      * @param PageRepository $pageRepository
      * @param PageManager $pageManager
-     * @param Translate $translate
      */
     public function __construct(
         PageRepository $pageRepository,
-        PageManager $pageManager,
-        Translate $translate
+        PageManager $pageManager
     ) {
         $this->pageRepository = $pageRepository;
         $this->pageManager = $pageManager;
-        $this->translate = $translate;
 
         $this->activePage = $pageRepository->getActivePage();
     }
@@ -91,11 +81,11 @@ class Publish extends BaseControl
             $this->pageManager->savePublish($this->activePage, $published);
 
             $type = $published ? 'success' : 'warning';
-            $status = $published ? $this->translate->translate('published') : $this->translate->translate('disabled');
+            $status = $published ? 'publikována' : 'vypnuta';
 
             $this->presenter->notificationAjax(
-                $this->translate->translate('Page %status%', ['status' => $status]),
-                $this->translate->translate('Publish status has been successfully updated.'),
+                "Stránka {$status}",
+                "Status stránky byl upraven na: {$status}",
                 $type,
                 FALSE
             );

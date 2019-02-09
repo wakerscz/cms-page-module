@@ -16,7 +16,6 @@ use Wakers\BaseModule\Util\AjaxValidate;
 use Wakers\BaseModule\Database\DatabaseException;
 use Wakers\LangModule\Database\Lang;
 use Wakers\LangModule\Repository\LangRepository;
-use Wakers\LangModule\Translator\Translate;
 use Wakers\PageModule\Database\Page;
 use Wakers\PageModule\Manager\PageManager;
 use Wakers\PageModule\Repository\PageRepository;
@@ -58,12 +57,6 @@ class PrimaryModal extends BaseControl
 
 
     /**
-     * @var Translate
-     */
-    protected $translate;
-
-
-    /**
      * @var callable
      */
     public $onSave = [];
@@ -74,18 +67,15 @@ class PrimaryModal extends BaseControl
      * @param LangRepository $langRepository
      * @param PageRepository $pageRepository
      * @param PageManager $pageManager
-     * @param Translate $translate
      */
     public function __construct(
         LangRepository $langRepository,
         PageRepository $pageRepository,
-        PageManager $pageManager,
-        Translate $translate
+        PageManager $pageManager
     ) {
         $this->langRepository = $langRepository;
         $this->pageRepository = $pageRepository;
         $this->pageManager = $pageManager;
-        $this->translate = $translate;
 
         $this->activeLang = $langRepository->getActiveLang();
         $this->activePage = $pageRepository->getActivePage();
@@ -119,11 +109,11 @@ class PrimaryModal extends BaseControl
         }
 
         $form = new Form;
-
         $form->addText('name')
-            ->addRule(Form::MAX_LENGTH, 'Maximal length of page name is %d chars.', 64)
-            ->addRule(Form::MIN_LENGTH, 'Minimal length of page name is %d chars.', 3)
-            ->setRequired('Page name is required.');
+            ->setRequired('Název stránky je povinný.')
+            ->addRule(Form::MIN_LENGTH, 'Minimální délka názvu stránky jsou %d znaky.', 3)
+            ->addRule(Form::MAX_LENGTH, 'Maximální délka názvu stránky je %d znaků.', 64);
+
 
         $form->addSelect('parentPageId', NULL, $pageNames)
             ->setRequired(FALSE);
@@ -160,8 +150,8 @@ class PrimaryModal extends BaseControl
                 $this->pageManager->saveParentPage($this->activeLang, $this->activePage, $values->parentPageId);
 
                 $this->presenter->notificationAjax(
-                    $this->translate->translate('Page updated'),
-                    $this->translate->translate('Primary info has been successfully updated.'),
+                    'Nastavení stránky',
+                    'Hlavní nastavení stránky bylo úspěšně uloženo',
                     'success',
                     FALSE
                 );
@@ -171,7 +161,7 @@ class PrimaryModal extends BaseControl
             catch (DatabaseException $exception)
             {
                 $this->presenter->notificationAjax(
-                    $this->translate->translate('Error'),
+                    'Chyba',
                     $exception->getMessage(),
                     'error'
                 );

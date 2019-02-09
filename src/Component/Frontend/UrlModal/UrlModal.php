@@ -16,7 +16,6 @@ use Wakers\BaseModule\Util\AjaxValidate;
 use Wakers\BaseModule\Database\DatabaseException;
 use Wakers\LangModule\Database\Lang;
 use Wakers\LangModule\Repository\LangRepository;
-use Wakers\LangModule\Translator\Translate;
 use Wakers\PageModule\Database\Page;
 use Wakers\PageModule\Manager\PageManager;
 use Wakers\PageModule\Manager\PageUrlManager;
@@ -72,12 +71,6 @@ class UrlModal extends BaseControl
 
 
     /**
-     * @var Translate
-     */
-    protected $translate;
-
-
-    /**
      * @var callable
      */
     public $onSaveFail = [];
@@ -90,22 +83,19 @@ class UrlModal extends BaseControl
      * @param PageRepository $pageRepository
      * @param PageManager $pageManager
      * @param PageUrlManager $pageUrlManager
-     * @param Translate $translate
      */
     public function __construct(
         LangRepository $langRepository,
         PageUrlRepository $pageUrlRepository,
         PageRepository $pageRepository,
         PageManager $pageManager,
-        PageUrlManager $pageUrlManager,
-        Translate $translate
+        PageUrlManager $pageUrlManager
     ) {
         $this->langRepository = $langRepository;
         $this->pageUrlRepository = $pageUrlRepository;
         $this->pageRepository = $pageRepository;
         $this->pageManager = $pageManager;
         $this->pageUrlManager = $pageUrlManager;
-        $this->translate = $translate;
 
         $this->activeLang = $langRepository->getActiveLang();
         $this->activePage = $pageRepository->getActivePage();
@@ -134,10 +124,10 @@ class UrlModal extends BaseControl
         $form = new Form;
 
         $form->addText('url')
-            ->addRule(Form::PATTERN, 'Allowed chars for url are: a-z, 0-9, slash, dash', PageRepository::URL_REGEX)
-            ->addRule(Form::MAX_LENGTH, 'Maximal length of url is %d', 255)
-            ->addRule(Form::MIN_LENGTH, 'Minimal length of url is %d', 2)
-            ->setRequired('Page URL is required.')
+            ->setRequired('URL stránky je povinná.')
+            ->addRule(Form::PATTERN, 'Povolené znaky pro URL: a-z, 0-9, lomítko, pomlčka.', PageRepository::URL_REGEX)
+            ->addRule(Form::MIN_LENGTH, 'Minimální délka url je %d znaky.', 2)
+            ->addRule(Form::MAX_LENGTH, 'Maximální délka url je %d znaků.', 255)
             ->addFilter(function ($value) {
                 return $this->pageManager->webalizeUrl($value);
             });
@@ -176,8 +166,8 @@ class UrlModal extends BaseControl
                 if ($urlBefore !== $urlAfter->getUrl())
                 {
                     $this->presenter->notification(
-                        $this->translate->translate('Page url updated'),
-                        $this->translate->translate('Page url has been successfully updated.'),
+                        'URL stránky',
+                        'URL stránky byla úspěšně uložena.',
                         'success'
                     );
 
@@ -186,8 +176,8 @@ class UrlModal extends BaseControl
                 else
                 {
                     $this->presenter->notificationAjax(
-                        $this->translate->translate('Page url updated'),
-                        $this->translate->translate('Page url has been successfully updated.'),
+                        'URL stránky',
+                        'URL stránky byla úspěšně uložena.',
                         'success'
                     );
                 }
@@ -199,7 +189,7 @@ class UrlModal extends BaseControl
                 ]);
 
                 $this->presenter->notificationAjax(
-                    $this->translate->translate('Error'),
+                    'Chyba',
                     $exception->getMessage(),
                     'error',
                     FALSE
