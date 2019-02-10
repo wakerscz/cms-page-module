@@ -14,16 +14,19 @@ use Nette\Application\UI\Form;
 use Wakers\BaseModule\Component\Frontend\BaseControl;
 use Wakers\BaseModule\Util\AjaxValidate;
 use Wakers\BaseModule\Database\DatabaseException;
+use Wakers\BaseModule\Util\SetDisabledForm;
 use Wakers\LangModule\Database\Lang;
 use Wakers\LangModule\Repository\LangRepository;
 use Wakers\PageModule\Database\Page;
 use Wakers\PageModule\Manager\PageManager;
 use Wakers\PageModule\Repository\PageRepository;
+use Wakers\PageModule\Security\PageAuthorizator;
 
 
 class PrimaryModal extends BaseControl
 {
     use AjaxValidate;
+    use SetDisabledForm;
 
 
     /**
@@ -129,6 +132,12 @@ class PrimaryModal extends BaseControl
             'parentPageId' => $root === $this->activePage->getParent() ? 0 : $this->activePage->getParent()->getId()
         ]);
 
+
+        if (!$this->presenter->user->isAllowed(PageAuthorizator::RES_PRIMARY_MODAL))
+        {
+            $this->setDisabledForm($form, TRUE);
+        }
+
         return $form;
     }
 
@@ -151,7 +160,7 @@ class PrimaryModal extends BaseControl
 
                 $this->presenter->notificationAjax(
                     'Nastavení stránky',
-                    'Hlavní nastavení stránky bylo úspěšně uloženo',
+                    'Hlavní nastavení stránky bylo úspěšně uloženo.',
                     'success',
                     FALSE
                 );

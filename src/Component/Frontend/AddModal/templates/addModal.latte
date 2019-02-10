@@ -1,77 +1,76 @@
 {**
  * Copyright (c) 2018 Wakers.cz
- *
  * @author Jiří Zapletal (http://www.wakers.cz, zapletal@wakers.cz)
- *
  *}
 
-<div class="wakers_modal" id="wakers_page_add_modal">
+{if $user->isAllowed(Wakers\PageModule\Security\PageAuthorizator::RES_ADD_MODAL)}
+    <div class="wakers_modal" id="wakers_page_add_modal">
 
-    <div class="modal_title">
-        <a href="#" class="close" data-wakers-modal-close>&#x2715</a>
-        Přidat novou stránku
+        <div class="modal_title">
+            <a href="#" class="close" data-wakers-modal-close>&#x2715</a>
+            Přidat novou stránku
+        </div>
+
+        {snippet pageAddForm}
+            <form n:name="addForm" class="wakers_form" id="wakers_page_add_form">
+
+                <div class="form_group">
+                    <div class="group_label">
+                        <label n:name="name">Název stránky:</label>
+                    </div>
+
+                    <div class="group_control">
+                        <input n:name="name" placeholder="Relevantní název k obsahu celé stránky">
+                    </div>
+                </div>
+
+                <div class="form_group">
+                    <div class="group_label">
+                        <label n:name="parentPageId">Nadřazená stránka:</label>
+                    </div>
+
+                    <div class="group_control">
+                        <select n:name="parentPageId"></select>
+                    </div>
+                </div>
+
+                <div class="form_group">
+                    <div class="group_label">
+                        <label n:name="view">Vzhled:</label>
+                    </div>
+
+                    <div class="group_control">
+                        <select n:name="view"></select>
+                    </div>
+                </div>
+
+                <div class="form_group">
+                    <div class="group_label">
+                        <label n:name="url">URL Adresa:</label>
+                    </div>
+
+                    <div class="group_control">
+                        <input n:name="url" placeholder="př: reference/rekonstrukce/byt-v-ceskych-budejovicich" readonly>
+                    </div>
+                </div>
+
+                <div class="form_group">
+                    <div class="group_label">
+                        <label n:name="urlType">Struktura URL:</label>
+                    </div>
+
+                    <div class="group_control">
+                        <select n:name="urlType"></select>
+                    </div>
+                </div>
+
+                <div class="form_group">
+                    <div class="group_label"></div>
+                    <div class="group_control">
+                        <button n:name="save" type="submit" class="wakers_btn" data-wakers-progress-button>Vytvořit stránku</button>
+                    </div>
+                </div>
+            </form>
+        {/snippet}
     </div>
-
-    {snippet pageAddForm}
-        <form n:name="addForm" class="wakers_form" id="wakers_page_add_form">
-
-            <div class="form_group">
-                <div class="group_label">
-                    <label n:name="name">Název stránky:</label>
-                </div>
-
-                <div class="group_control">
-                    <input n:name="name" placeholder="Relevantní název k obsahu celé stránky">
-                </div>
-            </div>
-
-            <div class="form_group">
-                <div class="group_label">
-                    <label n:name="parentPageId">Nadřazená stránka:</label>
-                </div>
-
-                <div class="group_control">
-                    <select n:name="parentPageId"></select>
-                </div>
-            </div>
-
-            <div class="form_group">
-                <div class="group_label">
-                    <label n:name="view">Vzhled:</label>
-                </div>
-
-                <div class="group_control">
-                    <select n:name="view"></select>
-                </div>
-            </div>
-
-            <div class="form_group">
-                <div class="group_label">
-                    <label n:name="url">URL Adresa:</label>
-                </div>
-
-                <div class="group_control">
-                    <input n:name="url" placeholder="př: reference/rekonstrukce/byt-v-ceskych-budejovicich" readonly>
-                </div>
-            </div>
-
-            <div class="form_group">
-                <div class="group_label">
-                    <label n:name="urlType">Struktura URL:</label>
-                </div>
-
-                <div class="group_control">
-                    <select n:name="urlType"></select>
-                </div>
-            </div>
-
-            <div class="form_group">
-                <div class="group_label"></div>
-                <div class="group_control">
-                    <button n:name="save" type="submit" class="wakers_btn" data-wakers-progress-button>Vytvořit stránku</button>
-                </div>
-            </div>
-        </form>
-    {/snippet}
-
-</div>
+{/if}

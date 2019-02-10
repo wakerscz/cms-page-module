@@ -149,7 +149,7 @@ abstract class FrontendPresenter extends Presenter
             throw new BadRequestException("Page with url '{$url}' does not exists.");
         }
 
-        if ($page->getPublished() === FALSE && !$this->presenter->user->isAllowed(PageAuthorizator::RES_PAGE_MODULE))
+        if ($page->getPublished() === FALSE && !$this->presenter->user->isAllowed(PageAuthorizator::RES_MODULE))
         {
             throw new BadRequestException("Page '{$page->getPageUrl()->getUrl()}' is not published.", 403);
         }

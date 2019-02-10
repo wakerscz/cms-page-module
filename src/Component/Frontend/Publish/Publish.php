@@ -14,6 +14,7 @@ use Wakers\BaseModule\Component\Frontend\BaseControl;
 use Wakers\PageModule\Database\Page;
 use Wakers\PageModule\Manager\PageManager;
 use Wakers\PageModule\Repository\PageRepository;
+use Wakers\PageModule\Security\PageAuthorizator;
 
 
 class Publish extends BaseControl
@@ -74,7 +75,7 @@ class Publish extends BaseControl
      */
     public function handlePublish() : void
     {
-        if ($this->presenter->isAjax())
+        if ($this->presenter->isAjax() && $this->presenter->user->isAllowed(PageAuthorizator::RES_PUBLISH_HANDLE))
         {
             $published = !$this->activePage->getPublished();
 

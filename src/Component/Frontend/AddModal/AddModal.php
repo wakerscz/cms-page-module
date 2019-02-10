@@ -14,16 +14,19 @@ use Nette\Application\UI\Form;
 use Wakers\BaseModule\Component\Frontend\BaseControl;
 use Wakers\BaseModule\Util\AjaxValidate;
 use Wakers\BaseModule\Database\DatabaseException;
+use Wakers\BaseModule\Util\SetDisabledForm;
 use Wakers\LangModule\Database\Lang;
 use Wakers\LangModule\Repository\LangRepository;
 use Wakers\PageModule\Manager\PageManager;
 use Wakers\PageModule\Manager\PageUrlManager;
 use Wakers\PageModule\Repository\PageRepository;
+use Wakers\PageModule\Security\PageAuthorizator;
 
 
 class AddModal extends BaseControl
 {
     use AjaxValidate;
+    use SetDisabledForm;
 
 
     /**
@@ -177,6 +180,12 @@ class AddModal extends BaseControl
 
         $form->onValidate[] = function (Form $form) { $this->validate($form); };
         $form->onSuccess[] = function (Form $form) { $this->success($form); };
+
+
+        if (!$this->presenter->user->isAllowed(PageAuthorizator::RES_ADD_MODAL))
+        {
+            $this->setDisabledForm($form, TRUE);
+        }
 
         return $form;
     }

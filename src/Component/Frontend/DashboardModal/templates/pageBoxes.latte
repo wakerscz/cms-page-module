@@ -1,46 +1,55 @@
 {**
  * Copyright (c) 2018 Wakers.cz
- *
  * @author Jiří Zapletal (http://www.wakers.cz, zapletal@wakers.cz)
- *
  *}
 
-<div class="wakers_dashboard">
-    <div class="modal_subtitle">Stránky</div>
+{if $user->isAllowed(Wakers\PageModule\Security\PageAuthorizator::RES_MODULE)}
+    <div class="wakers_dashboard">
+        <div class="modal_subtitle">Stránky</div>
 
+        <div class="dashboard_boxes">
 
-    <div class="dashboard_boxes">
+            {if $user->isAllowed(Wakers\PageModule\Security\PageAuthorizator::RES_MODULE)}
+                <div class="dashboard_box">
+                    {php $presenter->getComponent('pagePublish')->render()}
+                </div>
+            {/if}
 
-        <div class="dashboard_box">
-            {php $presenter->getComponent('pagePublish')->render()}
-        </div>
+            {if $user->isAllowed(Wakers\PageModule\Security\PageAuthorizator::RES_PRIMARY_MODAL)}
+                <div class="dashboard_box">
+                    <a href="#" class="current_settings" data-wakers-modal-open="wakers_page_primary_modal">
+                        Název a zařazení<br>
+                        <small>(pro orientaci na webu)</small>
+                    </a>
+                </div>
+            {/if}
 
-        <div class="dashboard_box">
-            <a href="#" class="current_settings" data-wakers-modal-open="wakers_page_primary_modal">
-                Název a zařazení<br>
-                <small>(pro orientaci na webu)</small>
-            </a>
-        </div>
+            {if $user->isAllowed(Wakers\PageModule\Security\PageAuthorizator::RES_URL_MODAL)}
+                <div class="dashboard_box">
+                    <a href="#" class="current_settings" data-wakers-modal-open="wakers_page_url_modal">
+                        URL Adresa<br>
+                        <small>(odkaz na stránku)</small>
+                    </a>
+                </div>
+            {/if}
 
-        <div class="dashboard_box">
-            <a href="#" class="current_settings" data-wakers-modal-open="wakers_page_url_modal">
-                URL Adresa<br>
-                <small>(odkaz na stránku)</small>
-            </a>
-        </div>
+            {if $user->isAllowed(Wakers\PageModule\Security\PageAuthorizator::RES_SUMMARY_MODAL)}
+                <div class="dashboard_box" data-wakers-modal-open="wakers_page_summary_modal">
+                    <a href="#">
+                        Přehled stránek ({$presenter->template->langEntity->getName()})
+                    </a>
+                </div>
+            {/if}
 
-        <div class="dashboard_box" data-wakers-modal-open="wakers_page_summary_modal">
-            <a href="#">
-                Přehled stránek ({$presenter->template->langEntity->getName()})
-            </a>
-        </div>
+            {if $user->isAllowed(Wakers\PageModule\Security\PageAuthorizator::RES_ADD_MODAL)}
+                <div class="dashboard_box" data-wakers-modal-open="wakers_page_add_modal">
+                    <a href="#">
+                        Přidat novou stránku ({$presenter->template->langEntity->getName()})<br>
+                        <small>(používat výjimečně)</small>
+                    </a>
+                </div>
+            {/if}
 
-        <div class="dashboard_box" data-wakers-modal-open="wakers_page_add_modal">
-            <a href="#">
-                Přidat novou stránku ({$presenter->template->langEntity->getName()})<br>
-                <small>(používat výjimečně)</small>
-            </a>
         </div>
     </div>
-
-</div>
+{/if}
